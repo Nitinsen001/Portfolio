@@ -26,4 +26,5 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('skills/', views.skills, name='skills'),
+    path('send_email/', views.send_email, name='send_email'),
 ]
