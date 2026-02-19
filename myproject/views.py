@@ -40,9 +40,3 @@ def send_email(request):
             messages.success(request, 'Message sent successfully!')
         except Exception as e:
             print("Email failed:", e)
-            messages.error(request, 'Failed to send message. Please try again.')
-
-    return redirect('/#contact')
-
-
-

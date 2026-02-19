@@ -131,4 +131,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'nitinsen70671@gmail.com'  # Your Gmail address
-EMAIL_HOST_PASSWORD = 'onfaixvxqtguhjvn'  # Generate this from Google Account settings
+EMAIL_HOST_PASSWORD = 'ybjeqxhpuxqplsnj'  # New App Password

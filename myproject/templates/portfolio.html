@@ -836,143 +836,383 @@
 .resume-section {
     background: linear-gradient(135deg, var(--light-gray) 0%, #ffffff 100%);
     position: relative;
+    padding: 4rem 0;
+}
+
+/* Resume Layout Grid */
+.resume-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+    margin-top: 2rem;
+}
+
+.resume-sidebar, .resume-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Universal Card Style */
+.resume-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(99, 102, 241, 0.08);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    position: relative;
     overflow: hidden;
 }
 
-.resume-section::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(45deg, rgba(99, 102, 241, 0.03), transparent);
-    animation: rotateBackground 15s linear infinite;
+.resume-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
 }
 
-@keyframes rotateBackground {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+/* Profile Card Specifics */
+.profile-card {
+    text-align: center;
+    background: linear-gradient(180deg, var(--white) 60%, var(--light-gray) 100%);
 }
 
-.resume-container {
-    position: relative;
-    z-index: 1;
+.resume-profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--white);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+    margin-bottom: 1rem;
+    object-fit: cover;
 }
 
-.cover-letter {
-    transform: translateY(50px);
-    opacity: 0;
-    animation: slideUpFade 1s ease forwards;
+.role-badge {
+    display: inline-block;
+    background: var(--gradient);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
 }
 
-.resume-content {
-    gap: 3rem;
+.contact-list {
+    margin-top: 1.5rem;
+    text-align: left;
 }
 
-.resume-section {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(99, 102, 241, 0.1);
-    transform: translateY(50px);
-    opacity: 0;
-    animation: slideUpFade 1s ease forwards 0.3s;
-}
-
-.section-heading {
+.contact-item-resume {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 10px;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--dark-gray);
 }
 
-.section-heading::before {
-    content: '';
-    width: 30px;
-    height: 3px;
-    background: var(--gradient);
-    border-radius: 3px;
+.contact-item-resume i {
+    color: var(--primary);
+    width: 20px;
+    text-align: center;
 }
 
-.info-block {
+.contact-item-resume a {
+    color: var(--dark-gray);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.contact-item-resume a:hover {
+    color: var(--primary);
+}
+
+/* Sidebar Elements */
+.sidebar-title {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(99, 102, 241, 0.1);
+}
+
+.skill-category {
+    margin-bottom: 1.2rem;
+}
+
+.skill-category h5 {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tags span {
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--primary);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.skill-tags span:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.cert-list, .achievement-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cert-list li, .achievement-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light-gray);
+    font-size: 0.9rem;
     position: relative;
     padding-left: 20px;
 }
 
-.info-block::before {
+.cert-list li:last-child, .achievement-list li:last-child {
+    border-bottom: none;
+}
+
+.cert-list li::before, .achievement-list li::before {
+    content: '•';
+    color: var(--primary);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.cert-source {
+    color: var(--gray);
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Main Content Elements */
+.main-title {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cover-letter-card {
+    padding-top: 3.5rem;
+}
+
+.section-badge {
+    background: var(--gradient);
+    color: white;
+    padding: 4px 15px;
+    border-radius: 0 0 12px 12px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.85rem;
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.cover-letter-content p {
+    margin-bottom: 1rem;
+    color: var(--dark-gray);
+    line-height: 1.7;
+}
+
+.signature {
+    margin-top: 2rem;
+    font-style: italic;
+}
+
+/* Education Styles */
+.education-item {
+    border-left: 3px solid var(--secondary);
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.edu-year {
+    background: var(--light-gray);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Timeline Styles */
+.timeline {
+    position: relative;
+    padding-left: 10px;
+    margin-top: 1rem;
+}
+
+.timeline::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 0;
-    width: 3px;
-    height: 100%;
-    background: var(--gradient);
-    opacity: 0.3;
-    border-radius: 3px;
+    top: 5px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--primary), rgba(99, 102, 241, 0.1));
 }
 
-.info-block h3 {
-    color: var(--primary);
-    margin-top: 1.5rem;
-}
-
-.info-block ul li {
+.timeline-item {
     position: relative;
-    padding-left: 25px;
-    margin-bottom: 0.8rem;
+    padding-left: 35px;
+    margin-bottom: 2.5rem;
 }
 
-.info-block ul li::before {
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -4px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: var(--gradient);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 1);
+    z-index: 2;
+}
+
+.timeline-content h4 {
+    font-size: 1.1rem;
+    color: var(--dark-gray);
+    margin-bottom: 0.2rem;
+}
+
+.timeline-date {
+    display: block;
+    color: var(--primary);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+}
+
+.timeline-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.timeline-content ul li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 0.5rem;
+    color: var(--gray);
+    font-size: 0.95rem;
+}
+
+.timeline-content ul li::before {
     content: '▹';
     position: absolute;
     left: 0;
-    color: var(--primary);
+    color: var(--accent);
 }
 
-.download-btn {
-    margin-top: 3rem;
-    transform: translateY(30px);
-    opacity: 0;
-    animation: slideUpFade 1s ease forwards 0.6s;
+/* Mini Projects Grid */
+.resume-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
 }
 
-.download-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
-}
-
-@keyframes slideUpFade {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* Achievement badges */
-.achievements {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-}
-
-.achievement-badge {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    color: var(--primary);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+.mini-project {
+    background: var(--light-gray);
+    padding: 1.2rem;
+    border-radius: 12px;
     transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
-.achievement-badge:hover {
+.mini-project:hover {
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-color: var(--accent);
     transform: translateY(-3px);
-    background: var(--gradient);
-    color: white;
 }
+
+.mini-project h5 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.mini-project p {
+    font-size: 0.9rem;
+    margin: 0;
+    color: var(--gray);
+    line-height: 1.5;
+}
+
+/* Download Button Position */
+.resume-download {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+    .resume-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .resume-sidebar {
+        order: 1; /* Profile on top */
+    }
+    
+    .resume-main {
+        order: 2;
+    }
+    
+    .contact-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .contact-list {
+        grid-template-columns: 1fr;
+    }
+    .edu-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
 
         @media (max-width: 768px) {
             .resume-content {
@@ -1156,7 +1396,7 @@ document.querySelectorAll('.nav-links a').forEach(anchor => {
                         <i class="fas fa-eye"></i>
                         View My Work
                     </a>
-                    <a href="#contact" class="btn btn-outline">
+                    <a href="/contact/" class="btn btn-outline">
                         <i class="fas fa-paper-plane"></i>
                         Get In Touch
                     </a>
@@ -1946,6 +2186,15 @@ document.querySelectorAll('.nav-links a').forEach(anchor => {
                         <i class="fas fa-download"></i> Download Marksheet
                     </a>
                 </div>
+
+
+                <div class="semester-card">
+                    <div class="semester-title">Semester 4</div>
+                    <div class="semester-sgpa">7.42 SGPA</div>
+                    <a href="{% static 'images/result 4th sem.pdf' %}" class="download-marksheet" download>
+                        <i class="fas fa-download"></i> Download Marksheet
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -1954,111 +2203,171 @@ document.querySelectorAll('.nav-links a').forEach(anchor => {
     <div class="resume-container">
         <h2 class="resume-title">Resume & Cover Letter</h2>
         
-        <!-- Cover Letter -->
-        <div class="cover-letter">
-            <div class="section-heading">Cover Letter</div>
-            <div class="info-block">
-                <p>Nitin Sen<br>
-                    Umariya, Post Khedi Bujurga, Block Bhikangaon,<br>
-                    District Khargone, Madhya Pradesh<br>
-                    Email: nitinsen91650@gmail.com | Phone: 7067186232<br>
-                    LinkedIn: <a href="https://linkedin.com/in/nitinsen001">linkedin.com/in/nitinsen001</a></p>
-                
-                <p style="margin-top: 1rem;">Dear Hiring Manager,</p>
-                
-                <p>I am writing to express my interest in the internship opportunity at your esteemed organization. As a second-year B.Tech student specializing in Artificial Intelligence and Machine Learning at Jawaharlal Institute of Technology, Borawan, I have built a strong foundation in programming, machine learning, and web development. I recently completed a Web Development internship at CodeAlpha, where I enhanced my skills in Django, responsive UI design, and dynamic web applications.</p>
-                
-                <p>Additionally, I participated in a Harvard-affiliated research challenge where my team was selected among the Top 20 for the final presentation. My technical background in Python, C/C++, and web technologies, combined with hands-on project experience including e-commerce websites and file-sharing systems, makes me a strong candidate eager to contribute and learn in a real-world setting.</p>
-                
-                <p>I am excited about the opportunity to bring my passion for technology and innovation to your team. Thank you for considering my application.</p>
-                
-                <p>Sincerely,<br>Nitin Sen</p>
-            </div>
-        </div>
-        
-        <!-- Resume Content -->
-        <div class="resume-content">
-            <div class="resume-section">
-                <div class="section-heading">Personal Information</div>
-                <div class="info-block">
-                    <p>Name: Nitin Sen<br>
-                    Phone: 7067186232<br>
-                    Email: nitinsen91650@gmail.com<br>
-                    LinkedIn: <a href="https://linkedin.com/in/nitinsen001">View Profile</a><br>
-                    Location: Khargone, Madhya Pradesh</p>
+        <div class="resume-grid">
+            <!-- Left Sidebar -->
+            <div class="resume-sidebar">
+                <!-- Personal Info -->
+                <div class="resume-card profile-card">
+                    <div class="profile-header">
+                        <img src="{% static 'images/images/profile.jpg' %}" alt="Nitin Sen" class="resume-profile-img">
+                        <h3>Nitin Sen</h3>
+                        <p class="role-badge">AI & ML Engineer</p>
+                    </div>
+                    <div class="contact-list">
+                        <div class="contact-item-resume">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:nitinsen91650@gmail.com">nitinsen91650@gmail.com</a>
+                        </div>
+                        <div class="contact-item-resume">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 70671 86232</span>
+                        </div>
+                        <div class="contact-item-resume">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Khargone, Madhya Pradesh</span>
+                        </div>
+                        <div class="contact-item-resume">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://linkedin.com/in/nitinsen001">View LinkedIn</a>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="section-heading">Education</div>
-                <div class="info-block">
-                    <h3>Jawaharlal Institute of Technology, Borawan (RGPV)</h3>
-                    <p>B.Tech in Artificial Intelligence and Machine Learning<br>
-                    2nd Year, 4th Semester | CGPA: 7.41/10<br>
-                    Expected Graduation: 2027</p>
+                <!-- Technical Skills -->
+                <div class="resume-card">
+                    <h4 class="sidebar-title"><i class="fas fa-code"></i> Technical Skills</h4>
+                    <div class="skill-category">
+                        <h5>Languages</h5>
+                        <div class="skill-tags">
+                            <span>Python</span><span>C/C++</span><span>HTML/CSS</span><span>JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h5>Frameworks & Tools</h5>
+                        <div class="skill-tags">
+                            <span>Django</span><span>Git/GitHub</span><span>VS Code</span><span>SQLite3</span><span>MySQL</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h5>Data Science</h5>
+                        <div class="skill-tags">
+                            <span>Pandas</span><span>NumPy</span><span>Scikit-learn</span><span>Matplotlib</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="section-heading">Academic Accomplishments</div>
-<div class="info-block">
-    <ul>
-        <li>Selected among Top 20 teams in a Harvard-affiliated Research Event held at the college, recognized for innovative problem-solving and technical creativity. Final round presentation scheduled for 12th July 2025.</li>
-        <li>Qualified JEE Mains with 75 percentile and secured Tuition Fee Waiver (TFW) seat based on merit performance.</li>
-    </ul>
-</div>
 
-
-                <div class="section-heading">Skills</div>
-                <div class="info-block">
-                    <ul>
-                        <li>Programming: Python, C, C++, HTML, CSS</li>
-                        <li>Tools & Libraries: VS Code, Git & GitHub, Pandas, NumPy, Scikit-learn, Matplotlib, SQLite3, MySQL, PLSQL</li>
-                        <li>Concepts: Machine Learning (Basics), Data Structures, Web Development (Django)</li>
+                <!-- Certifications -->
+                <div class="resume-card">
+                    <h4 class="sidebar-title"><i class="fas fa-certificate"></i> Certifications</h4>
+                    <ul class="cert-list">
+                        <li>Machine Learning in Python <span class="cert-source">- Alison</span></li>
+                        <li>Generative AI Program <span class="cert-source">- SheKunj</span></li>
+                        <li>Ethics in Age of Generative AI <span class="cert-source">- LinkedIn</span></li>
+                        <li>Programming in Python <span class="cert-source">- Infosys</span></li>
+                        <li>160 Days of Problem Solving <span class="cert-source">- GFG</span></li>
                     </ul>
                 </div>
+
+                <!-- Academic Achievements -->
+                <div class="resume-card">
+                   <h4 class="sidebar-title"><i class="fas fa-trophy"></i> Achievements</h4>
+                   <ul class="achievement-list">
+                       <li>Top 20 Teams - Harvard-affiliated Innovation Challenge (2025)</li>
+                       <li>JEE Mains Qualified (75%ile) - Secured TFW Seat</li>
+                   </ul>
+                </div>
             </div>
 
-            
-
-            <div class="resume-section">
-                <div class="section-heading">Projects</div>
-                <div class="info-block">
-                    <h3>E-commerce Store (Django)</h3>
-                    <p>Developed a fully functional e-commerce website with user registration, login, product search, cart, and PayPal integration using Django, HTML, CSS, and JavaScript.</p>
-                    
-                    <h3>Student Dashboard with Profile (Django)</h3>
-                    <p>Created a user dashboard application with login, profile management, and advanced CSS/JS styling with offline capability.</p>
-
-                    <h3>ShareIt File Sharing System (Django)</h3>
-                    <p>Developed a backend file-sharing system using Django with secure upload/download and user authentication.</p>
-
-                    <h3>Student Record Management System (C)</h3>
-                    <p>Console-based application for managing student records using file handling and data structures in C.</p>
-
-                    <h3>Basic DSA Implementations (C)</h3>
-                    <p>Implemented sorting algorithms, stacks, queues, and linked lists to practice Data Structures and Algorithms.</p>
+            <!-- Right Main Content -->
+            <div class="resume-main">
+                <!-- Cover Letter -->
+                 <div class="resume-card cover-letter-card">
+                    <div class="section-badge">Cover Letter</div>
+                    <div class="cover-letter-content">
+                        <p><strong>Dear Hiring Manager,</strong></p>
+                        <p>I am writing to express my interest in an internship opportunity at your esteemed organization. Currently pursuing B.Tech in <strong>Artificial Intelligence and Machine Learning</strong> at Jawaharlal Institute of Technology, Borawan (RGPV) with a CGPA of <strong>7.41/10</strong>.</p>
+                        <p>I have hands-on experience from my <strong>Web Development Internship at CodeAlpha</strong>, where I built full-stack projects using Django. My participation in the <strong>Harvard-affiliated Innovation Challenge</strong> (Top 20 finalist) further honed my research and problem-solving skills.</p>
+                        <p>With a strong foundation in Python, Machine Learning, and Web Development, I am eager to contribute effectively to your team.</p>
+                        <p class="signature">Sincerely,<br><strong>Nitin Sen</strong></p>
+                    </div>
                 </div>
 
-                <div class="section-heading">Certifications</div>
-                <div class="info-block">
-                    <ul>
-                        <li>Machine Learning in Python - Alison</li>
-                        <li>Introduction to Machine Learning - Data Flair</li>
-                        <li>Generative AI Program – SheKunj</li>
-                        <li>AI Powered Collaboration – LinkedIn Learning</li>
-                        <li>Ethics in AI – LinkedIn Learning</li>
-                        <li>Programming in Python – Infosys</li>
-                        <li>Advanced HTML – Infosys</li>
-                        <li>160 Days of DSA – GeeksforGeeks</li>
-                        <li>C/C++ Essentials – LinkedIn Learning</li>
-                    </ul>
+                <!-- Education -->
+                <div class="resume-card">
+                    <h3 class="main-title"><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <div class="education-item">
+                        <div class="edu-header">
+                            <h4>B.Tech in AI & Machine Learning</h4>
+                            <span class="edu-year">2023 - 2027</span>
+                        </div>
+                        <p class="edu-inst">Jawaharlal Institute of Technology, Borawan (RGPV)</p>
+                        <p class="edu-score">Current CGPA: <strong>7.41/10</strong> (Till 4th Sem)</p>
+                    </div>
+                </div>
+
+                <!-- Experience Timeline -->
+                <div class="resume-card">
+                    <h3 class="main-title"><i class="fas fa-briefcase"></i> Experience</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h4>Web Development Intern</h4>
+                                <span class="timeline-date">CodeAlpha | June - July 2025</span>
+                                <ul>
+                                    <li>Built full-stack projects using HTML, CSS, JavaScript, and Django.</li>
+                                    <li>Enhanced skills in responsive UI design and backend logic.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h4>Research Participant</h4>
+                                <span class="timeline-date">Harvard-Affiliated Innovation Challenge | June 2025</span>
+                                <ul>
+                                    <li>Selected in Top 20 teams for final presentation.</li>
+                                    <li>Worked on innovative solutions for social challenges.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="resume-card">
+                    <h3 class="main-title"><i class="fas fa-project-diagram"></i> Key Projects</h3>
+                    <div class="resume-projects-grid">
+                        <div class="mini-project">
+                            <h5>E-commerce Store</h5>
+                            <p>Full-featured Django app with PayPal integration & cart system.</p>
+                        </div>
+                        <div class="mini-project">
+                            <h5>Student Dashboard</h5>
+                            <p>Profile management system with offline capabilities.</p>
+                        </div>
+                        <div class="mini-project">
+                            <h5>ShareIt System</h5>
+                            <p>Secure file sharing platform with authentication.</p>
+                        </div>
+                        <div class="mini-project">
+                            <h5>Student Record System</h5>
+                            <p>C-based console application using file handling.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
+
+        <!-- Download Button -->
         <div class="resume-download">
-            <a href="{% static 'nitin sen resume.docx' %}" class="download-btn" download>
+            <a href="{% static 'images/Nitin Resume (1).pdf' %}" class="download-btn" download>
                 <i class="fas fa-download"></i> Download Full Resume
             </a>
         </div>
     </div>
 </section>
+
 </html>
 
 {% comment %} contect page {% endcomment %}
