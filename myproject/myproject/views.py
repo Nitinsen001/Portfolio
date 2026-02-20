@@ -1,23 +1,13 @@
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
 
-def home(request):
-    return render(request, 'home.html')     
 
 def portfolio(request):
     return render(request, 'portfolio.html')     
 
-def about(request):
-    return render(request, 'about.html')     
-
-def contact(request):
-    return render(request, 'contact.html')     
-
-def skills(request):
-    return render(request, 'skill.html')
 
 def send_email(request):
     if request.method == 'POST':
@@ -26,23 +16,33 @@ def send_email(request):
         message = request.POST.get('message')
 
         subject = f'New Contact Form Message from {name}'
-        email_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        email_message_content = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
 
         try:
-            send_mail(
+            email_msg = EmailMessage(
                 subject=subject,
-                message=email_message,
-                # from_email=settings.EMAIL_HOST_USER,
-                from_email=email,
-                recipient_list=['nitinsen70671@gmail.com'],
-                fail_silently=False,
+                body=email_message_content,
+                from_email=settings.EMAIL_HOST_USER,
+                to=[settings.EMAIL_HOST_USER],
+                reply_to=[email],
             )
+            email_msg.send(fail_silently=False)
             messages.success(request, 'Message sent successfully!')
         except Exception as e:
             print("Email failed:", e)
-            messages.error(request, 'Failed to send message. Please try again.')
+            messages.error(request, f'Failed to send message: {e}')
 
-    return redirect('/#contact')
+    return redirect('/')
+
+
+# Custom Error Handlers
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def handler500(request):
+    return render(request, '500.html', status=500)
+
 
 
 
