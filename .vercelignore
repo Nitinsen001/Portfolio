@@ -1,0 +1,36 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Database
+db.sqlite3
+
+# Media files
+media/
+
+# Local settings
+local_settings.py
+
+# Git
+.git/
+.gitignore
+
+# Development files
+*.log
+.DS_Store
+
+# Large model files (if any)
+*.pkl
+*.h5
+*.pt
+*.pth
+
+# Node modules
+node_modules/
