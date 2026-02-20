@@ -1318,8 +1318,243 @@ html {
 }
 
 
+
+    /* Modern Project Section Styles */
+    .projects-grid {
+        display: flex;
+        overflow-x: auto;
+        gap: 2rem;
+        padding: 2.5rem calc(50% - 175px); /* Reduced top/bottom padding */
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        cursor: grab;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+        perspective: 1000px; /* Enable 3D space */
+        align-items: center; /* Center items vertically */
+    }
+
+    .projects-grid::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+
+    .projects-grid.active {
+        cursor: grabbing;
+        cursor: -webkit-grabbing;
+    }
+
+    .project-card {
+        min-width: 350px;
+        max-width: 350px;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        position: relative;
+        z-index: 1;
+        scroll-snap-align: center; /* Center alignment for snap */
+        user-select: none;
+        
+        /* Default State (Inactive) */
+        transform: scale(0.9) rotateY(10deg); /* Slight rotation and scale down */
+        opacity: 0.6; /* Dimmed */
+        filter: blur(1px) grayscale(40%); /* Subtle blur and desaturation */
+    }
+
+    /* Active Center Card State */
+    .project-card.active-center {
+        transform: scale(1.1) rotateY(0deg) translateY(-5px); /* Reduced translate */
+        opacity: 1;
+        filter: blur(0) grayscale(0%);
+        z-index: 10;
+        box-shadow: 0 25px 50px rgba(99, 102, 241, 0.25);
+        border-color: var(--primary);
+    }
+
+    .project-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 20px;
+        padding: 2px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary), transparent);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0.5;
+        transition: opacity 0.4s ease;
+    }
+
+    .project-card.active-center::before {
+        opacity: 1;
+    }
+
+    .project-content {
+        padding: 1.5rem; /* Reduced padding */
+        position: relative;
+        z-index: 2;
+        background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 100%);
+    }
+
+    .project-icon-wrapper {
+        width: 50px; /* Slightly smaller icon wrapper */
+        height: 50px;
+        background: var(--gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem; /* Reduced margin */
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        font-size: 1.5rem; /* Slightly smaller icon */
+        color: white;
+        transform: rotate(-5deg);
+        transition: transform 0.4s ease;
+    }
+
+    .project-card.active-center .project-icon-wrapper {
+        transform: rotate(0deg) scale(1.1);
+    }
+
+    .project-card h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem; /* Reduced margin */
+    }
+
+    .project-card p {
+        color: var(--gray);
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1rem; /* Reduced margin */
+    }
+
+    .project-links {
+        display: flex;
+        gap: 0.8rem;
+    }
+
+    .project-btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-demo {
+        background: var(--gradient);
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-demo:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        color: white;
+    }
+
+    .btn-code {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+    }
+
+    .btn-code:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+    }
     </style>
     
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const slider = document.querySelector('.projects-grid');
+        const cards = document.querySelectorAll('.project-card');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        // Drag to Scroll Logic
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // 3D Carousel Effect Logic
+        const updateSlider3D = () => {
+            const center = slider.offsetWidth / 2;
+            
+            cards.forEach(card => {
+                const cardRect = card.getBoundingClientRect();
+                const sliderRect = slider.getBoundingClientRect();
+                
+                // Calculate card's center relative to slider container
+                const cardCenter = (cardRect.left - sliderRect.left) + (cardRect.width / 2);
+                const distFromCenter = Math.abs(center - cardCenter);
+                
+                // Maximum distance to consider for effect (e.g., half slider width)
+                const maxDist = slider.offsetWidth / 1.5;
+                
+                // If card is close to center
+                if (distFromCenter < 150) { // Threshold for "active"
+                    card.classList.add('active-center');
+                    card.style.transform = `scale(1.1) rotateY(0deg) translateY(-10px)`;
+                } else {
+                    card.classList.remove('active-center');
+                    
+                    // Dynamic rotation based on side (Left rotates one way, Right the other)
+                    const isLeft = cardCenter < center;
+                    const rotateDeg = isLeft ? 15 : -15; // Rotate towards center
+                     
+                    card.style.transform = `scale(0.9) rotateY(${rotateDeg}deg)`;
+                }
+            });
+        };
+
+        // Initialize and listen for scroll/resize
+        slider.addEventListener('scroll', () => {
+            requestAnimationFrame(updateSlider3D);
+        });
+        window.addEventListener('resize', updateSlider3D);
+        
+        // Initial call
+        updateSlider3D();
+        
+        // Center the first card initially (optional)
+        // slider.scrollLeft = 0; 
+    });
+</script>
+
 <script>
 // Get all sections and navigation links
 const sections = document.querySelectorAll('section');
@@ -1458,47 +1693,12 @@ document.querySelectorAll('.nav-links a').forEach(anchor => {
         </div>
     </section>
 
-    <!-- Portfolio Projects Section -->
-    <section id="portfolio">
-        <div class="portfolio-container">
-            <h2>My Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Personal Portfolio</h3>
-                    <p>A modern portfolio website built with Django and modern CSS animations.</p>
-                    <div class="project-links">
-                        <a href="https://nitinsen.pythonanywhere.com" class="demo-link">Live Demo</a>
-                        <a href="https://github.com/Nitinsen001/portfolio-website" class="code-link">Source Code</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>GeeksforGeeks Solutions</h3>
-                    <p>My collection of DSA problem solutions and coding challenges.</p>
-                    <div class="project-links">
-                        <a href="https://auth.geeksforgeeks.org/user/nitinseqs4m" class="demo-link">View Profile</a>
-                        <a href="https://github.com/Nitinsen001/DSA-Solutions" class="code-link">Source Code</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>ML Projects</h3>
-                    <p>Machine Learning projects including data analysis and predictions.</p>
-                    <div class="project-links">
-                        <a href="https://github.com/Nitinsen001/ML-Projects" class="demo-link">View Projects</a>
-                        <a href="https://github.com/Nitinsen001/ML-Projects" class="code-link">Source Code</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Social Links -->
     <div class="social-links">
         <a href="https://github.com/Nitinsen001" class="social-link">
             <i class="fab fa-github"></i>
         </a>
-        <a href="https://www.geeksforgeeks.org/user/nitinseqs4m/" class="social-link">
+        <a href="https://www.linkedin.com/in/nitin-sen-972a7130a/" class="social-link">
             <i class="fab fa-linkedin-in"></i>
         </a>
         <a href="https://twitter.com/nitinsen001" class="social-link">
@@ -2739,6 +2939,300 @@ document.querySelectorAll('.nav-links a').forEach(anchor => {
     </nav>
 
 
+    <!-- Portfolio Projects Section -->
+    <section id="portfolio">
+        <div class="portfolio-container">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3>Personal Portfolio</h3>
+                        <p>A modern, responsive portfolio website built with Django, featuring slick CSS animations and a dynamic blog system.</p>
+                        <div class="project-links">
+                            <a href="https://nitinsen.pythonanywhere.com" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/portfolio-website" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI_Career_Recommender -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI Career Recommender</h3>
+                        <p>An intelligent system that recommends career paths based on user skills, interests, and market trends using AI.</p>
+                        <div class="project-links">
+                            <a href="https://aicrs-h2j4.onrender.com" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/AI_Career_Recommender_update.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AirAware-system Public -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <h3>AirAware-system </h3>
+                        <p>An air quality monitoring system providing real-time data analysis and public awareness features.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/AirAware-system.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kaggle_capston_project -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Kaggle Capstone Project</h3>
+                        <p>A comprehensive data science project demonstrating advanced analytics and machine learning techniques on Kaggle datasets.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/Kaggle_capston_project.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JARVIS-INTERFACE-IN-JS -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>JARVIS Interface (JS)</h3>
+                        <p>A futuristic voice-activated assistant interface built with pure JavaScript, inspired by Iron Man's JARVIS.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/JARVIS-INTERFACE-IN-JS.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- book_web_scrape -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Book Web Scraper</h3>
+                        <p>A Python-based web scraping tool designed to extract book data such as prices, ratings, and reviews from online bookstores.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/book_web_scrape.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INSURANCE_AGENT_CHATBOT -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Insurance Agent Chatbot</h3>
+                        <p>An automated chatbot solution for insurance companies to handle customer queries and policy information efficiently.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/INSURANCE_AGENT_CHATBOT.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FACE_ATTENDANCE_SYSTEM-ANALYSIS -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h3>Face Attendance System</h3>
+                        <p>Analysis and implementation of a biometric attendance system using facial recognition technology.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/FACE_ATTENDANCE_SYSTEM-ANALYSIS.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CodeAlpha-Credit-Scoring-Model -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Credit Scoring Model</h3>
+                        <p>A predictive model developed to assess creditworthiness and calculate credit scores for loan applicants.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/CodeAlpha-Credit-Scoring-Model.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- student_record_system -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Student Record System</h3>
+                        <p>A digital record management system for educational institutions to track student performance and attendance.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/student_record_system.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CodeAlpha-ecommerce -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3>E-commerce Platform</h3>
+                        <p>A full-featured e-commerce website with product listings, shopping cart functionality, and secure checkout.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/CodeAlpha-ecommerce.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- image_recognization_system -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h3>Image Recognition System</h3>
+                        <p>A machine learning system capable of identifying and classifying objects within images with high accuracy.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/image_recognization_system.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CodeAlpha-social_media_platform -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Social Media Platform</h3>
+                        <p>A social networking application enabling user connections, post sharing, and real-time interaction.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/CodeAlpha-social_media_platform.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KBC-GAME -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>KBC Game</h3>
+                        <p>An interactive quiz game inspired by "Kaun Banega Crorepati," featuring multiple levels and lifelines.</p>
+                        <div class="project-links">
+                            <a href="#" class="project-btn btn-demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/Nitinsen001/KBC-GAME.git" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon-wrapper">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>DSA Solutions</h3>
+                        <p>Comprehensive collection of optimized solutions for Data Structures and Algorithms problems on GeeksforGeeks.</p>
+                        <div class="project-links">
+                            <a href="https://auth.geeksforgeeks.org/user/nitinseqs4m" class="project-btn btn-demo">
+                                <i class="fas fa-user-circle"></i> Profile
+                            </a>
+                            <a href="https://auth.geeksforgeeks.org/user/nitinseqs4m" class="project-btn btn-code">
+                                <i class="fab fa-github"></i> Source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
   <section id="contact">
     <div class="contact-container">
       <div class="contact-grid">
