@@ -1,5 +1,3 @@
 #!/bin/bash
-pip install --upgrade pip
-pip install -r requirements.txt --target /tmp/packages
-export PYTHONPATH=/tmp/packages:$PYTHONPATH
+pip install --break-system-packages -r requirements.txt
 python manage.py collectstatic --noinput
